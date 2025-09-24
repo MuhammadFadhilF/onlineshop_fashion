@@ -1,31 +1,41 @@
 <?php
 require_once "Form.php";
 
-echo "<h2>Form Input Produk Online Shop</h2>";
-
 $form = new Form("simpan.php", "POST");
 
-$form->inputText("nama_produk", "Nama Produk");
-$form->select("kategori", "Kategori", [
-    "elektronik" => "Elektronik",
-    "fashion" => "Fashion",
-    "kosmetik" => "Kosmetik",
-    "makanan" => "Makanan & Minuman",
-    "lainnya" => "Lainnya"
+// Nama produk
+$form->addText("nama_produk", "Nama Produk");
+
+// Kategori produk (misalnya baju, celana, aksesoris)
+$form->addDropdown("kategori", "Kategori", [
+    "Baju", "Celana", "Aksesoris", "Outerwear", "Workshirt"
 ]);
-$form->textarea("deskripsi", "Deskripsi Produk");
-$form->inputText("harga", "Harga");
-$form->inputText("stok", "Stok Produk");
-$form->inputRadio("tipe", "Tipe Produk", [
-    "barang" => "Barang",
-    "jasa" => "Jasa"
+
+// Deskripsi produk
+$form->addTextarea("deskripsi", "Deskripsi Produk");
+
+// Harga
+$form->addText("harga", "Harga (Rp)");
+
+// Stok
+$form->addText("stok", "Jumlah Stok");
+
+// Gender
+$form->addRadio("gender", "Gender", ["Pria", "Wanita", "Unisex"]);
+
+// ✅ Ukuran (Dropdown)
+$form->addDropdown("ukuran", "Ukuran", ["S", "M", "L", "XL"]);
+
+// ✅ Warna (Dropdown)
+$form->addDropdown("warna", "Warna", ["Hitam", "Putih", "Navy", "Olive", "Abu-abu"]);
+
+// Fitur tambahan (Checkbox)
+$form->addCheckbox("fitur[]", "Fitur", [
+    "Diskon", "Gratis Ongkir", "Limited"
 ]);
-$form->inputCheckbox("fitur", "Fitur Tambahan", [
-    "garansi" => "Garansi",
-    "cod" => "COD",
-    "diskon" => "Diskon",
-    "gratis_ongkir" => "Gratis Ongkir"
-]);
-$form->submit("Simpan Data Produk");
-$form->close();
+
+// Tombol submit
+$form->addSubmit("simpan", "Simpan Data Produk");
+
+$form->display();
 ?>
