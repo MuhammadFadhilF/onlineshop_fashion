@@ -1,27 +1,38 @@
 <?php
-$koneksi = new mysqli("localhost", "root", "", "onlineshop_db");
+// Koneksi ke database
+$koneksi = new mysqli("localhost", "root", "", "onlineshop_fashion");
 
+// Cek koneksi
 if ($koneksi->connect_error) {
     die("Koneksi gagal: " . $koneksi->connect_error);
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nama = $_POST['nama_produk'];
-    $kategori = $_POST['kategori'];
-    $deskripsi = $_POST['deskripsi'];
-    $harga = $_POST['harga'];
-    $stok = $_POST['stok'];
-    $tipe = $_POST['tipe'];
-    $fitur = isset($_POST['fitur']) ? implode(",", $_POST['fitur']) : "";
+// Ambil data dari form
+$nama_produk = $_POST['nama_produk'];
+$kategori    = $_POST['kategori'];
+$deskripsi   = $_POST['deskripsi'];
+$harga       = $_POST['harga'];
+$stok        = $_POST['stok'];
+$gender      = $_POST['gender'];
+$ukuran      = $_POST['ukuran'];
+$warna       = $_POST['warna'];
 
-    $sql = "INSERT INTO produk (nama_produk, kategori, deskripsi, harga, stok, tipe, fitur)
-            VALUES ('$nama', '$kategori', '$deskripsi', '$harga', '$stok', '$tipe', '$fitur')";
-
-    if ($koneksi->query($sql)) {
-        echo "✅ Data produk berhasil disimpan! <br>";
-        echo "<a href='form_produk.php'>Input lagi</a>";
-    } else {
-        echo "❌ Error: " . $koneksi->error;
-    }
+// Checkbox (fitur bisa lebih dari 1)
+$fitur = "";
+if (isset($_POST['fitur'])) {
+    $fitur = implode(", ", $_POST['fitur']); 
 }
+
+// Query simpan data
+$sql = "INSERT INTO produk (nama_produk, kategori, deskripsi, harga, stok, gender, ukuran, warna, fitur)
+        VALUES ('$nama_produk', '$kategori', '$deskripsi', '$harga', '$stok', '$gender', '$ukuran', '$warna', '$fitur')";
+
+if ($koneksi->query($sql) === TRUE) {
+    echo "✅ Data produk berhasil disimpan.<br>";
+    echo "<a href='form_produk.php'>Kembali ke Form</a>";
+} else {
+    echo "❌ Error: " . $sql . "<br>" . $koneksi->error;
+}
+
+$koneksi->close();
 ?>
