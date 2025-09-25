@@ -14,3 +14,4 @@ CREATE TABLE produk (
     fitur TEXT,
     tanggal_input TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
